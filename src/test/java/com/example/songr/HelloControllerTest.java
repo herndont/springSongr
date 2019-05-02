@@ -1,5 +1,6 @@
 package com.example.songr;
 
+import com.example.songr.controllers.HelloController;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
