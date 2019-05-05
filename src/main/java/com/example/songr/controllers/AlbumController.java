@@ -17,13 +17,12 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/albums")
 public class AlbumController {
-
     @Autowired
-    AlbumRepository repo;
+    AlbumRepository repoAlbum;
 
     @GetMapping("/")
     public String getAlbums(Model model){
-        List<Album> albums = (List<Album>) this.repo.findAll();
+        List<Album> albums = (List<Album>) this.repoAlbum.findAll();
         model.addAttribute("albums", albums);
 
 
@@ -34,8 +33,8 @@ public class AlbumController {
         album.length = 2588;
         album.imageURL = "https://en.wikipedia.org/wiki/Led_Zeppelin_III#/media/File:Led_Zeppelin_-_Led_Zeppelin_III.png";
 
-        this.repo.save(album);
-        //Returns all the albums including the new one
+        this.repoAlbum.save(album);
+//        Returns all the albums including the new one
 
         return "albums";
     }

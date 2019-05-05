@@ -5,15 +5,45 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<div>
-    <div th:each="album : ${albums}">
-        <div th: text = "${album.id}"></div>
-        <div th: text = "${album.title}"></div>
-        <div th: text = "${album.artist}"></div>
-        <div th: text = "${album.songCount}"></div>
-        <div th: text = "${album.length}"></div>
-        <div th: text = "${album.imageURL}"></div>
-    </div>
-</div>
+
+<h1>Albums</h1>
+<form action="/albums/create" method="post">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Song Count</th>
+                <th>Album Length</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="album : ${albums}">
+                <td th: text = "${album.id}"></td>
+                <td th: text = "${album.title}"></td>
+                <td th: text = "${album.artist}"></td>
+                <td th: text = "${album.songCount}"></td>
+                <td th: text = "${album.length}"></td>
+                <td th: text = "${album.imageURL}"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><input type="text" placeholder="Title" name="title"/></td>
+                <td><input type="text" placeholder="Artist" name="artist"/></td>
+                <td><input type="number" placeholder="Song Count" name="songCount"/></td>
+                <td><input type="number" placeholder="Album length in seconds" name="Length"/></td>
+                <td><input type="url" placeholder="Album Cover URL" name="imageURL"/></td>
+                <td><button type="submit">Create New Album</button></td>
+            </tr>
+
+        </tfoot>
+
+    </table>
+</form>
+
 </body>
 </html>
