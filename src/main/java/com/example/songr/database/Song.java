@@ -13,5 +13,5 @@ public class Song {
         public String title;
         public Long length;  //in seconds
         public int trackNumber;
-        public String album;
+        public long albumID;
 }
