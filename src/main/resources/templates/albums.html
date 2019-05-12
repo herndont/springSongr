@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="'en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Albums</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<h1>Albums</h1>
+
+<!--<div th:each="album : ${albumList}">-->
+<!--    <div th:text="${album.title}"></div>-->
+<!--    <div th:text="${album.artist}"></div>-->
+
+<!--</div>-->
+<form action="/albums/create" method="post">
+    <input type="text" placeholder="Title" name="title"/>
+    <input type="text" placeholder="Artist" name="artist"/>
+    <input type="number" placeholder="Song Count" name="songCount"/>
+    <input type="number" placeholder="Album length in seconds" name="length"/>
+    <input type="url" placeholder="Album Cover URL" name="imageURL"/>
+    <button type="submit">Create New Album</button>
+</form>
+
+<hr>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Song Count</th>
+                <th>Album Length</th>
+                <th>Album Image</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="album : ${albumList}">
+                <td th:text = "${album.title}"></td>
+                <td th:text = "${album.artist}"></td>
+                <td th:text = "${album.songCount}"></td>
+                <td th:text = "${album.length}"></td>
+                <td th:text = "${album.imageURL}"></td>
+            </tr>
+        </tbody>
+
+
+
+    </table>
+
+</body>
+
+<style>
+    th{
+    text-align: left;
+    }
+    td{
+    min-width: 200px;
+    }
+</style>
+</html>

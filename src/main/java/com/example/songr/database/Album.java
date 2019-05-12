@@ -14,6 +14,6 @@ public class Album {
     public String title;
     public String artist;
     public int songCount;
-    public long length;
-    public String imageURL;
+    public long length;  //album length in seconds
+    public String imageURL;  //URL to image art
 }
