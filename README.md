@@ -12,7 +12,7 @@
     - The Routes Available:
         /albums     --will show you all of the albums available
         /albums/{id#}   --will show you albums by id
-        /albums/create  --navigate here by entering in new album data and adding it to the database from /albums
+        /albums/create  --navigate here by entering in new album data and adding it to the database from /albums.
     
 ## Lab 13: Related Resources and Integration Tests
     This lab is currently not going well for me at all. I am completely lost and am going to spend the weekend redoing
