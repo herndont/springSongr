@@ -15,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -47,14 +48,17 @@ public class AlbumController {
     @GetMapping("/{id}")
     public String getAlbum(@PathVariable Long id, Model model) {
     //Getting the Album by id
-        Optional<Album> album = this.repoAlbum.findById(id);
-        if (album.isPresent()) {
+        Optional<Album> optional = this.repoAlbum.findById(id);
+        if (optional.isPresent()) {
+            Album album = optional.get();
             //return value of Album Optional
-            model.addAttribute("album", album.get());
+            model.addAttribute("album", album);
 
             List<Song> songs = (List<Song>) this.repoSong.findAll();
+            List<Song> filteredSongs = songs.stream().
+            filter(p -> p.albumID == album.id).collect(Collectors.toList());
 
-            model.addAttribute(songs);
+            model.addAttribute(filteredSongs);
             return "singleAlbum";
         } else {
             throw new AlbumNotFoundException();
