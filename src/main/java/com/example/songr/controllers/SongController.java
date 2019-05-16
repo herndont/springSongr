@@ -1,13 +1,20 @@
 package com.example.songr.controllers;
 
 
+import com.example.songr.database.Album;
 import com.example.songr.database.Song;
 import com.example.songr.database.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/songs")
@@ -16,28 +23,21 @@ public class SongController {
     SongRepository repoSong;
 
 
-//    @GetMapping("")
-//    public String getSongs(Model model) {
-//
-//    }
+    @PostMapping("/create")
+    public ModelAndView createSong(
+            @RequestParam String title,
+            @RequestParam String length,
+            @RequestParam String trackNumber,
+            @RequestParam String albumID
 
+    ) {
+        Song song = new Song();
+        song.title = title;
+        song.length = Long.parseLong(length);
+        song.trackNumber = Integer.parseInt(trackNumber);
+        song.albumID = Long.parseLong(albumID);
 
-
-//    @GetMapping("")
-//    public String getAlbums(Model model){
-//        Album album = new Album();
-//        album.title = "Led Zeppelin III";
-//        album.artist = "Led Zeppelin";
-//        album.songCount = 10;
-//        album.length = 2588;
-//        album.imageURL = "https://en.wikipedia.org/wiki/Led_Zeppelin_III#/media/File:Led_Zeppelin_-_Led_Zeppelin_III.png";
-//
-//        this.repoAlbum.save(album);
-////        Returns all the albums including the new one
-//        List<Album> albums = (List<Album>) this.repoAlbum.findAll();
-//
-//        model.addAttribute(albums);
-//
-//        return "albums";
-//    }
+        repoSong.save(song);
+        return new ModelAndView("redirect:/albums/" + albumID);
+    }
 }

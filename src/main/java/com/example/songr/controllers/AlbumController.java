@@ -3,17 +3,19 @@ package com.example.songr.controllers;
 import com.example.songr.AlbumNotFoundException;
 import com.example.songr.database.Album;
 import com.example.songr.database.AlbumRepository;
+import com.example.songr.database.Song;
+import com.example.songr.database.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -21,6 +23,9 @@ import java.util.Optional;
 public class AlbumController {
     @Autowired
     AlbumRepository repoAlbum;
+
+    @Autowired
+    SongRepository repoSong;
 
     @GetMapping("")
     public String getAlbums(Model model){
@@ -43,10 +48,17 @@ public class AlbumController {
     @GetMapping("/{id}")
     public String getAlbum(@PathVariable Long id, Model model) {
     //Getting the Album by id
-        Optional<Album> album = this.repoAlbum.findById(id);
-        if (album.isPresent()) {
+        Optional<Album> optional = this.repoAlbum.findById(id);
+        if (optional.isPresent()) {
+            Album album = optional.get();
             //return value of Album Optional
             model.addAttribute("album", album);
+
+            List<Song> songs = (List<Song>) this.repoSong.findAll();
+            List<Song> filteredSongs = songs.stream().
+            filter(p -> p.albumID == album.id).collect(Collectors.toList());
+
+            model.addAttribute(filteredSongs);
             return "singleAlbum";
         } else {
             throw new AlbumNotFoundException();
@@ -70,30 +82,5 @@ public class AlbumController {
 
         repoAlbum.save(album);
         return new RedirectView("") ;
-    }
-
-    @PutMapping("/{id}")
-    public Album updateAlbum(@PathVariable Long id, @RequestBody Album album) {
-        //Make sure the album exists and make sure they are not passing something we don't want in.
-        //We don't want to save something bad
-        Optional<Album> repoAlbum = this.repoAlbum.findById(id);
-        if (repoAlbum.isPresent()) {
-            Album foundAlbum = repoAlbum.get();
-
-            foundAlbum.title = album.title;
-            foundAlbum.artist = album.artist;
-            foundAlbum.songCount = album.songCount;
-            foundAlbum.length = album.length;
-            foundAlbum.imageURL = album.imageURL;
-
-            foundAlbum = this.repoAlbum.save(foundAlbum);
-            return foundAlbum;
-        }
-        throw new AlbumNotFoundException();
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteAlbum(@PathVariable Long id) {
-        this.repoAlbum.deleteById(id);
     }
 }

@@ -1,22 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${album.title}"/>
+    <title> Selected Album </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <h1 th:text="${album.title}"/>
 
     <main>
-<!--        <section>-->
-<!--            <img th:href="${album.imageURL}"/>-->
-<!--            <ul>-->
-<!--                <li th:text="Album Title: " + "${album.title}"/>-->
-<!--                <li th:text="'Album Title: ' + ${album.title}"/>-->
-<!--                <li th:text="'Artist: ' + ${album.artist}">-->
-<!--                <li th:text="''">-->
-            </ul>
-        </section>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Song Count</th>
+                <th>Album Length</th>
+                <th>Album Image</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text = "${album.title}"></td>
+                    <td th:text = "${album.artist}"></td>
+                    <td th:text = "${album.songCount}"></td>
+                    <td th:text = "${album.length}"></td>
+                    <td th:text = "${album.imageURL}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+        <form action="/songs/create" method="post">
+            <input type="text" placeholder="Song Title" name="title"/>
+            <input type="text" placeholder="Song Length" name="length"/>
+            <input type="number" placeholder="Track Number" name="trackNumber"/>
+            <input type="number" placeholder="Album ID" name="albumID"/>
+            <button type="submit">Create New Song</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Song Title</th>
+                    <th>Length</th>
+                    <th>Track Number</th>
+                    <th>album ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <tr th:each="song : ${songList}">
+                    <td th:text = "${song.title}"></td>
+                    <td th:text = "${song.length}"></td>
+                    <td th:text = "${song.trackNumber}"></td>
+                    <td th:text = "${song.albumID}"></td>
+                </tr>
+            </tbody>
+        </table>
+
     </main>
 </body>
+
+<style>
+    th{
+    text-align: left;
+    }
+    td{
+    min-width: 200px;
+    }
+</style>
 </html>
